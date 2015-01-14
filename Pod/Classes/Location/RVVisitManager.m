@@ -77,30 +77,30 @@ NSString *const kRVVisitManagerDidExitLocationNotification = @"RVVisitManagerDid
 - (void)regionManagerDidEnterRegion:(NSNotification *)note {
     CLBeaconRegion *beaconRegion = [note.userInfo objectForKey:@"beaconRegion"];
     
-    if (self.latestVisit && [self.latestVisit isInRegion:beaconRegion] && self.latestVisit.isAlive) {
-        
-        // Touchpoint check
-        if (!self.latestVisit.currentTouchpoint || ![self.latestVisit.currentTouchpoint isInRegion:beaconRegion]) {
-            RVTouchpoint *touchpoint = [self.latestVisit touchpointForRegion:beaconRegion];
-            if (touchpoint) {
-                self.latestVisit.currentTouchpoint = touchpoint;
-                [[RVNotificationCenter defaultCenter] postNotificationName:kRVVisitManagerDidEnterTouchpointNotification object:self userInfo:@{ @"touchpoint": touchpoint }];
-                RVLog(kRoverDidEnterTouchpointNotification, nil);
-            } else {
-                NSLog(@"Invalid touchpoint");
-            }
-        }
-        
-        NSDate *now = [NSDate date];
-        NSTimeInterval elapsed = [now timeIntervalSinceDate:self.latestVisit.enteredAt];
-        
-        // Reset the timer
-        self.latestVisit.beaconLastDetectedAt = now;
-        
-        RVLog(kRoverAlreadyVisitingNotification, @{ @"elapsed": [NSNumber numberWithDouble:elapsed],
-                                                    @"keepAlive": [NSNumber numberWithDouble:self.latestVisit.keepAlive] });
-        return;
-    }
+//    if (self.latestVisit && [self.latestVisit isInRegion:beaconRegion] && self.latestVisit.isAlive) {
+//        
+//        // Touchpoint check
+//        if (!self.latestVisit.currentTouchpoint || ![self.latestVisit.currentTouchpoint isInRegion:beaconRegion]) {
+//            RVTouchpoint *touchpoint = [self.latestVisit touchpointForRegion:beaconRegion];
+//            if (touchpoint) {
+//                self.latestVisit.currentTouchpoint = touchpoint;
+//                [[RVNotificationCenter defaultCenter] postNotificationName:kRVVisitManagerDidEnterTouchpointNotification object:self userInfo:@{ @"touchpoint": touchpoint }];
+//                RVLog(kRoverDidEnterTouchpointNotification, nil);
+//            } else {
+//                NSLog(@"Invalid touchpoint");
+//            }
+//        }
+//        
+//        NSDate *now = [NSDate date];
+//        NSTimeInterval elapsed = [now timeIntervalSinceDate:self.latestVisit.enteredAt];
+//        
+//        // Reset the timer
+//        self.latestVisit.beaconLastDetectedAt = now;
+//        
+//        RVLog(kRoverAlreadyVisitingNotification, @{ @"elapsed": [NSNumber numberWithDouble:elapsed],
+//                                                    @"keepAlive": [NSNumber numberWithDouble:self.latestVisit.keepAlive] });
+//        return;
+//    }
 
     RVCustomer *customer = [Rover shared].customer;
     if (customer.dirty) {
